@@ -13,8 +13,24 @@ Using Python 3.10 (latest Python version as of time of writing)
 `conda create -n myenv python=3.10`
 `conda activate myenv`
 
-- MySQL: `pip install mysql`
 - Flask: `pip install flask`
+- [Placeholder](https://xkcd.com/323/)
+
+#### Interfacing Python-Flask with SQL DB
+- MySQL: `pip install mysql-connector-python`
+- SQLAlchemy: `pip install sqlalchemy`. ORM for initializing and dealing with SQL DB.
+
+- [Basic tutorial](https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91)
+- [Engine initiation strings](https://docs.sqlalchemy.org/en/14/core/engines.html#mysql)
+- [Documentation regarding querying etc](https://docs.sqlalchemy.org/en/13/orm/tutorial.html#querying). In retrospect, this is REALLY like pulling teeth. Maybe running plain manual SQL queries would've been better, since the IDE ain't helping much with this.
+
+- Tables should correspond to classes defined in `orm_classes`
+- An empty DB can be initialized with these definitions
+
+#### Interfacing Flask with Frontend
+- Flask CORS: `pip install flask_cors`. This is required for communicating with a separate React frontend.
+- JWT: `pip install pyjwt`. This is used for user authentication.
+- [Flask JWT example](https://www.geeksforgeeks.org/using-jwt-for-user-authentication-in-flask/)
 
 ## Deployment options
 
@@ -66,7 +82,9 @@ Lightsail DBs have default timezone UTC, this CANNOT be changed outside of AWS C
 2. In Lightsail page, click on Account at the top. Go to Advanced, click on Go to the IAM console.
 3. Go to Access keys tab, create an access key. Save the key file.
 4. [Follow this to configure AWS CLI for access](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-how-to-set-up-access-keys-to-use-sdk-api-cli)
+- `aws configure`
 5. [Follow this to get param details and update](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-updating-database-parameters#get-database-parameters). Parameters to look out for: time_zone and max_connections (this can be a problem with multi-threaded code)
+- `aws lightsail update-relational-database-parameters --relational-database-name DatabaseName --parameters "parameterName=ParameterName,parameterValue=NewParameterValue,applyMethod=ApplyMethod"`
 
 This is like pulling teeth!
 

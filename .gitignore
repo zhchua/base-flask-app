@@ -1,3 +1,8 @@
+# These files should include ALL confidential information located in the project.
+secret.py
+secret/
+test.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
