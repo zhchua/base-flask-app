@@ -7,7 +7,7 @@ class Account(Base):
 
     id = Column(Integer, primary_key = True)
     username = Column(String(256), unique = True)
-    pwhash = Column(Text)
+    pwtext = Column(Text)
 
     createts = Column(DateTime, server_default=func.now())
     createby = Column(Integer)

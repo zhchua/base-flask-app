@@ -22,7 +22,7 @@ Using Python 3.10 (latest Python version as of time of writing)
 
 - [Basic tutorial](https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91)
 - [Engine initiation strings](https://docs.sqlalchemy.org/en/14/core/engines.html#mysql)
-- [Documentation regarding querying etc](https://docs.sqlalchemy.org/en/13/orm/tutorial.html#querying). In retrospect, this is REALLY like pulling teeth. Maybe running plain manual SQL queries would've been better, since the IDE ain't helping much with this.
+- [Documentation regarding querying etc](https://docs.sqlalchemy.org/en/13/orm/tutorial.html#querying). IDE ain't helping much with this, could consider plain SQL instead (potentially vulnerable to injection attacks).
 
 - Tables should correspond to classes defined in `orm_classes`
 - An empty DB can be initialized with these definitions
@@ -32,10 +32,15 @@ Using Python 3.10 (latest Python version as of time of writing)
 - JWT: `pip install pyjwt`. This is used for user authentication.
 - [Flask JWT example](https://www.geeksforgeeks.org/using-jwt-for-user-authentication-in-flask/)
 
+### (OPTIONAL) Hosting on Windows with Apache as Webserver
+##### WARNING: ENSURE APACHE HTTPD (see deployment section below) AND DEPENDENCIES ARE INSTALLED FIRST!
+- mod_wsgi: `pip install mod_wsgi`. [Hosting guide](https://dev.to/willmvs/flask-deployment-on-windows-139b)
+
 ## Deployment options
 
 ### Windows VM on AWS Lightsail
-This is the convenient option.
+This is the "convenient" option - in that there's GUI (it's windows) and no one else at my current org knows Linux. 
+Deploying Flask with HTTPS (the sane way) is teeth-pullingly irritating.
 
 #### If no existing Lightsail instance or DB:
 1. Set up a Lightsail instance (so ludicrously easy that this doesn't require a guide)
@@ -48,13 +53,7 @@ This is the convenient option.
 4. Get default PW from Lightsail Connect tab (recommended to NOT CHANGE THIS EVER), paste into RDC
 5. Connect and be done
 
-#### When DB is running:
-1. Go to Lightsail DB instance, go to Networking tab, set Public mode to enabled (temporarily)
-2. Go to Connect tab and get connection details, endpoint and port
-3. Open DB GUI (e.g. DBeaver, HeidiSQL), apply parameters as necessary
-4. (Use GUI and make life easier, don't be the suicidal fool with commandline)
-
-#### Setting up the Lightsail Instance:
+#### Setting up the Windows Server Lightsail Instance:
 
 ##### Setting up a proper browser
 1. In RDC, open Server Manager (start menu -> 'server manager')
@@ -73,6 +72,14 @@ This is the convenient option.
 - Postman
 - Anaconda
 - Github Desktop
+- WinRAR
+- [Apache HTTP Server](https://www.apachelounge.com/download/), [basic guide](https://njinius.com/blog/flask-python-application-deploy-to-apache-web-server/)
+
+#### When DB is running:
+1. Go to Lightsail DB instance, go to Networking tab, set Public mode to enabled (temporarily)
+2. Go to Connect tab and get connection details, endpoint and port
+3. Open DB GUI (e.g. DBeaver, HeidiSQL), apply parameters as necessary
+4. (Use GUI and make life easier, don't be the suicidal fool with commandline)
 
 #### Timezone in Lightsail DB
 Requires [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
@@ -89,6 +96,8 @@ Lightsail DBs have default timezone UTC, this CANNOT be changed outside of AWS C
 This is like pulling teeth!
 
 ### Linux VM on AWS
-Not now lol
+Prefer this over windows for practical deployment, but requires knowledge of Linux.
+
+[TODOTODOTODO]
 
 
