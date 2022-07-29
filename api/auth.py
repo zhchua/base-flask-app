@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, make_response
-from helpers.db import sessionmaker, engine
+from helpers.db import engine
 from helpers.jwt import token_required, create_token, get_token_user
 from datetime import datetime, timedelta
 from orm_classes.account import Account
 from secret.api import SECRET_KEY
-import jwt
+from sqlalchemy.orm import sessionmaker
 
 auth : Blueprint = Blueprint('auth', __name__)
 
@@ -32,7 +32,9 @@ def login():
     if user is None:
         return jsonify({'err' : 'User/PW error'}), 401
 
-    return jsonify({'token' : create_token(user.id, timedelta(minutes=30))}), 201  # type: ignore
+    token = create_token(user.id, timedelta(minutes=30))  # type: ignore
+    print(token)
+    return jsonify({'token' : token}), 201  # type: ignore
 
 @auth.route('/auth/signup', methods=['POST'])
 def sign_up():
@@ -62,8 +64,9 @@ def sign_up():
 @auth.route('/auth/token', methods=['POST', 'GET'])
 @get_token_user
 def token_refresh(user : Account):
-    if not request.is_json:
-        return {'err':'Not a JSON'}, 400
-    contents : dict = request.get_json()  # type: ignore
-    print(contents)
-    return jsonify({'token' : create_token(user.id, timedelta(minutes=30))}), 20  # type: ignore
+    #print(request.headers['Authorization'])
+
+    #identity = get_jwt_identity()
+    #access_token = create_access_token(identity, expires_delta = timedelta(minutes=30))
+    token = create_token(user.id, timedelta(minutes=30))  # type: ignore
+    return jsonify({'token' : token}), 201  # type: ignore

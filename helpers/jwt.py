@@ -4,7 +4,8 @@ from flask import request, jsonify
 from functools import wraps
 from secret.api import SECRET_KEY
 from orm_classes.account import Account
-from helpers.db import sessionmaker, engine
+from helpers.db import engine
+from sqlalchemy.orm import sessionmaker
 
 def create_token(user_id : int, expiry : timedelta) -> str:
     return jwt.encode(
@@ -23,15 +24,14 @@ def token_required(f):
         # RFC 7235: Should conform to format Authorization : Bearer <TOKEN>
         try:
             token : str = request.headers['Authorization'].split(' ')[1]
-            print(token)
+            if request.headers['Authorization'].split(' ')[0] != 'Bearer':
+                return jsonify({'err' : 'Not JWT Bearer'}), 401
         except Exception as e:
-            print(e)
             return jsonify({'err' : 'Missing JWT token'}), 401
   
         try:
             # decoding the payload to fetch the stored details
             data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            print(data)
 
             Session = sessionmaker(bind = engine)
             session = Session()
@@ -65,6 +65,8 @@ def get_token_user(f):
         try:
             token : str = request.headers['Authorization'].split(' ')[1]
             print(token)
+            if request.headers['Authorization'].split(' ')[0] != 'Bearer':
+                return jsonify({'err' : 'Not JWT Bearer'}), 401
         except Exception as e:
             print(e)
             return jsonify({'err' : 'Missing JWT token'}), 401

@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-import jwt
 from secret.api import SECRET_KEY
 
 from api.test import testapi

@@ -15,6 +15,7 @@ Using Python 3.10 (latest Python version as of time of writing)
 
 - Flask: `pip install flask`
 - [Placeholder](https://xkcd.com/323/)
+- wfastcgi if hosting with IIS on Windows Server: `pip install wfastcgi`. [Guide about topic](https://medium.com/@dpralay07/deploy-a-python-flask-application-in-iis-server-and-run-on-machine-ip-address-ddb81df8edf3)
 
 #### Interfacing Python-Flask with SQL DB
 - MySQL: `pip install mysql-connector-python`
@@ -22,7 +23,7 @@ Using Python 3.10 (latest Python version as of time of writing)
 
 - [Basic tutorial](https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91)
 - [Engine initiation strings](https://docs.sqlalchemy.org/en/14/core/engines.html#mysql)
-- [Documentation regarding querying etc](https://docs.sqlalchemy.org/en/13/orm/tutorial.html#querying). IDE ain't helping much with this, could consider plain SQL instead (potentially vulnerable to injection attacks).
+- [Documentation regarding querying etc](https://docs.sqlalchemy.org/en/13/orm/tutorial.html#querying). IDE ain't helping much with this, and SQLAlchemy somehow fails on some systems (idk why). Plain SQL on mysql connector is a possible alternative.
 
 - Tables should correspond to classes defined in `orm_classes`
 - An empty DB can be initialized with these definitions
@@ -31,6 +32,7 @@ Using Python 3.10 (latest Python version as of time of writing)
 - Flask CORS: `pip install flask_cors`. This is required for communicating with a separate React frontend.
 - JWT: `pip install pyjwt`. This is used for user authentication.
 - [Flask JWT example](https://www.geeksforgeeks.org/using-jwt-for-user-authentication-in-flask/)
+- [Flask JWT Extended](https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage/): `pip install flask-jwt-extended`
 
 ### (OPTIONAL) Hosting on Windows with Apache as Webserver
 ##### WARNING: ENSURE APACHE HTTPD (see deployment section below) AND DEPENDENCIES ARE INSTALLED FIRST!
@@ -73,7 +75,8 @@ Deploying Flask with HTTPS (the sane way) is teeth-pullingly irritating.
 - Anaconda
 - Github Desktop
 - WinRAR
-- [Apache HTTP Server](https://www.apachelounge.com/download/), [basic guide](https://njinius.com/blog/flask-python-application-deploy-to-apache-web-server/)
+- Windows IIS. [Guide](https://medium.com/@dpralay07/deploy-a-python-flask-application-in-iis-server-and-run-on-machine-ip-address-ddb81df8edf3)
+- [Apache HTTP Server, if not using IIS](https://www.apachelounge.com/download/), [basic guide](https://njinius.com/blog/flask-python-application-deploy-to-apache-web-server/)
 
 #### When DB is running:
 1. Go to Lightsail DB instance, go to Networking tab, set Public mode to enabled (temporarily)
@@ -97,7 +100,12 @@ This is like pulling teeth!
 
 ### Linux VM on AWS
 Prefer this over windows for practical deployment, but requires knowledge of Linux.
-
 [TODOTODOTODO]
 
+- useful git commands
+- nginx
+- ssh/putty/winscp on dev pc
+- flask as long-running service
 
+### As Docker Container
+[TODOTODOTODO]
